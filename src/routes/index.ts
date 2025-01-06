@@ -90,13 +90,9 @@ router.get("/api/topics", async (req: Request, res: Response) => {
 
 router.post("/api/topic", validateUser, async (req: CustomRequest, res: Response) => {
 
-    console.log(req.user)
-
     const { title, content } = req.body;
     const username = req.user?.username;
   
-    console.log(username)
-
     if (!username) {
         res.status(400).json({ message: 'Username not found in token.' });
         return
@@ -106,8 +102,6 @@ router.post("/api/topic", validateUser, async (req: CustomRequest, res: Response
       const newTopic = await Topic.create({ title, content, username });
       res.json(newTopic);
     } catch (err) {
-        console.log("Failed to add topic to mongoDB.")
-        console.log(err)
         res.status(500).json({ message: 'Server error' });
     }
 });
@@ -115,7 +109,7 @@ router.post("/api/topic", validateUser, async (req: CustomRequest, res: Response
 router.delete("/api/topic/:id", validateAdmin, async (req: Request, res: Response) => {
     try {
         await Topic.findByIdAndDelete(req.params.id);
-        res.json({ message: 'Topic deleted successfully' });
+        res.json({ message: 'Topic deleted successfully.' });
       } catch (err) {
         res.status(500).json({ message: 'Server error' });
       }
