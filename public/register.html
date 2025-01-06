@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <title>Register</title>
+  <script src="./js/register.js" defer></script>
+</head>
+<body>
+  <div class="container">
+    <h3>Register</h3>
+    <form id="registerForm">
+      <div class="input-field">
+        <input type="email" id="email" required>
+        <label for="email">Email</label>
+      </div>
+      <div class="input-field">
+        <input type="text" id="username" required>
+        <label for="username">Username</label>
+      </div>
+      <div class="input-field">
+        <input type="password" id="password" required>
+        <label for="password">Password</label>
+      </div>
+      <label>
+        <input type="checkbox" id="isAdmin">
+        <span>Register as Admin</span>
+      </label>
+      <br><br>
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+</body>
+</html>
