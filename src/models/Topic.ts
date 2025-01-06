@@ -15,6 +15,6 @@ const topicSchema : Schema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Topic: mongoose.Model<ITopic> = mongoose.model<ITopic>("User", topicSchema)
+const Topic: mongoose.Model<ITopic> = mongoose.model<ITopic>("Topic", topicSchema)
 
 export {Topic}
