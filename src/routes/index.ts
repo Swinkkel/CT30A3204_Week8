@@ -1,9 +1,11 @@
 import {Request, Response, Router} from "express"
 import bcrypt from "bcrypt"
 import { compile } from "morgan"
-import {User} from "../models/User"
 import jwt, {JwtPayload} from "jsonwebtoken"
 import {body, validationResult} from 'express-validator'
+import {User} from "../models/User"
+import {Topic} from "../models/Topic"
+import { validateUser, validateAdmin, CustomRequest } from '../middleware/validateToken';
 
 const router: Router = Router()
 
@@ -76,5 +78,35 @@ router.post("/api/user/login",
         res.status(200).json({success: true, token})  
         return
 })
+
+router.get("/api/topics", async (req: Request, res: Response) => {
+    try {
+        const topics = await Topic.find();
+        res.json(topics);
+      } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+      }
+});
+
+router.post("/api/topic", validateUser, async (req: CustomRequest, res: Response) => {
+    const { title, content } = req.body;
+    const { username } = req.user?.username;
+  
+    try {
+      const newTopic = await Topic.create({ title, content, username });
+      res.json(newTopic);
+    } catch (err) {
+      res.status(500).json({ message: 'Server error' });
+    }
+});
+
+router.delete("/api/topic/:id", validateAdmin, async (req: Request, res: Response) => {
+    try {
+        await Topic.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Topic deleted successfully' });
+      } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+      }
+});
 
 export default router
