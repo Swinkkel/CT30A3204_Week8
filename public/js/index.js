@@ -37,11 +37,18 @@ async function fetchTopics() {
 
     topics.forEach((topic) => {
       const topicDiv = document.createElement("div");
-      topicDiv.innerHTML = `
+      topicDiv.classList.add("card", "z-depth-2", "hoverable", "grey", "lighten-2")
+
+      const contentDiv = document.createElement("div");
+      contentDiv.classList.add("card-content")
+
+      contentDiv.innerHTML = `
         <span>${topic.title}</span>
         <p>${topic.content}</p>
-        <p>Posted by: ${topic.username} at ${new Date(topic.createdAt).toLocaleString()}</p>
-        <button id="deleteTopic-${topic._id}" class="btn red">Delete</button>
+        <p class="grey-text text-darken-2">Posted by: ${topic.username} at ${new Date(topic.createdAt).toLocaleString()}</p>
+        <div class="card-action">
+          <button id="deleteTopic" class="btn waves-effect waves-light">Delete</button>
+        </div>
       `;
       topicsDiv.appendChild(topicDiv);
 

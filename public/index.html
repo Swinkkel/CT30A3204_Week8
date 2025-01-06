@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-  <title>Forum</title>
-  <script src="./js/index.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <title>Forum</title>
+    <script src="./js/index.js" defer></script>
 </head>
 <body>
   <nav>
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">Forum</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li>
-          <form id="loginForm" style="display: flex; gap: 10px;">
-            <div class="input-field">
-              <input type="email" id="email" placeholder="Email" required>
+      <ul class="right">
+        <li id="loginContainer">
+          <form id="loginForm" class="row">
+            <div class="input-field col">
+              <input type="email" id="email" placeholder="Email" class="navbar-input" required>
             </div>
-            <div class="input-field">
-              <input type="password" id="password" placeholder="Password" required>
+            <div class="input-field col">
+              <input type="password" id="password" placeholder="Password" class="navbar-input" required>
             </div>
-            <button type="submit" class="btn">Login</button>
+            <div class="col">
+                <button type="submit" class="btn waves-effect waves-light">Login</button>
+            </div>
+            
           </form>
         </li>
         <li>
-          <a href="/register.html" class="btn">Register</a>
+          <a href="/register.html" class="btn waves-effect waves-light">Register</a>
         </li>
       </ul>
     </div>
@@ -40,7 +47,7 @@
         <div class="input-field">
           <textarea id="topicText" class="materialize-textarea" placeholder="Topic Content" required></textarea>
         </div>
-        <button type="submit" class="btn">Post Topic</button>
+        <button type="submit" id="postTopic" class="btn waves-effect waves-light">Post Topic</button>
       </form>
     </div>
 
