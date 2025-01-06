@@ -38,22 +38,14 @@ async function fetchTopics() {
     topics.forEach((topic) => {
       const topicDiv = document.createElement("div");
       topicDiv.innerHTML = `
-        <h5>${topic.title}</h5>
+        <span>${topic.title}</span>
         <p>${topic.content}</p>
-        <p><strong>By:</strong> ${topic.username} on ${new Date(topic.createdAt).toLocaleString()}</p>
-        ${
-          topic.isAdmin
-            ? `<button id="deleteTopic-${topic._id}" class="btn red">Delete</button>`
-            : ""
-        }
+        <p>Posted by: ${topic.username} at ${new Date(topic.createdAt).toLocaleString()}</p>
+        <button id="deleteTopic-${topic._id}" class="btn red">Delete</button>
       `;
       topicsDiv.appendChild(topicDiv);
 
-      if (topic.isAdmin) {
-        document
-          .getElementById(`deleteTopic-${topic._id}`)
-          ?.addEventListener("click", () => deleteTopic(topic._id));
-      }
+      document.getElementById(`deleteTopic-${topic._id}`)?.addEventListener("click", () => deleteTopic(topic._id));
     });
   } catch (err) {
     console.error(err);
