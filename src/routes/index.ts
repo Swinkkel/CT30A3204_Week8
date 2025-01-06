@@ -89,14 +89,26 @@ router.get("/api/topics", async (req: Request, res: Response) => {
 });
 
 router.post("/api/topic", validateUser, async (req: CustomRequest, res: Response) => {
+
+    console.log(req.user)
+
     const { title, content } = req.body;
-    const { username } = req.user?.username;
+    const username = req.user?.username;
   
+    console.log(username)
+
+    if (!username) {
+        res.status(400).json({ message: 'Username not found in token.' });
+        return
+    }
+
     try {
       const newTopic = await Topic.create({ title, content, username });
       res.json(newTopic);
     } catch (err) {
-      res.status(500).json({ message: 'Server error' });
+        console.log("Failed to add topic to mongoDB.")
+        console.log(err)
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
