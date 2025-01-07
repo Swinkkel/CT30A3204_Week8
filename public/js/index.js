@@ -18,11 +18,10 @@ document.getElementById("loginForm")?.addEventListener("submit", async (e) => {
       localStorage.setItem("token", data.token);
       window.location.reload();
     } else {
-      alert(data.message || "Login failed.");
+      console.log(data.message || "Login failed.");
     }
   } catch (err) {
     console.error(err);
-    alert("Server error.");
   }
 });
 
@@ -43,6 +42,7 @@ async function fetchTopics() {
       contentDiv.classList.add("card-content")
 
       const titleSpan = document.createElement("span")
+      titleSpan.id = "card-title"
       titleSpan.innerText = topic.title
       contentDiv.appendChild(titleSpan)
 
@@ -73,37 +73,8 @@ async function fetchTopics() {
     });
   } catch (err) {
     console.error(err);
-    alert("Failed to load topics.");
   }
 }
-
-// Post a new topic
-document.getElementById("postTopicForm")?.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const token = localStorage.getItem("token");
-  const title = document.getElementById("topicTitle").value.trim();
-  const content = document.getElementById("topicText").value.trim();
-
-  try {
-    const res = await fetch(`${API_URL}/topic`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ title, content }),
-    });
-
-    if (res.ok) {
-      fetchTopics();
-    } else {
-      alert("Failed to post topic.");
-    }
-  } catch (err) {
-    console.error(err);
-    alert("Server error.");
-  }
-});
 
 // Delete a topic
 async function deleteTopic(id) {
@@ -133,11 +104,56 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentPath = window.location.pathname || '/';
   
     if (currentPath === '/' || currentPath === '/index.html') {
-        fetchTopics();
+      fetchTopics();
 
         const token = localStorage.getItem("token");
         if (token) {
-            document.getElementById("topicForm").style.display = "block";
+          console.log("Token defined")
+
+          document.getElementById("topicForm").innerHTML = `
+            <form id="postTopicForm">
+              <div class="input-field">
+                <input type="text" id="topicTitle" placeholder="Topic Title" required>
+              </div>
+              <div class="input-field">
+                <textarea id="topicText" class="materialize-textarea" placeholder="Topic Content" required></textarea>
+              </div>
+              <button type="submit" id="postTopic" class="btn waves-effect waves-light">Post Topic</button>
+            </form>`
+          document.getElementById("topicForm").style.display = "block";
+          // Post a new topic
+          document.getElementById("postTopicForm")?.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem("token");
+            const title = document.getElementById("topicTitle").value.trim();
+            const content = document.getElementById("topicText").value.trim();
+
+            try {
+              const res = await fetch(`${API_URL}/topic`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ title, content }),
+              });
+
+              if (res.ok) {
+                fetchTopics();
+              } else {
+                console.log("Failed to post topic.");
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          });
+
+        }
+        else {
+          console.log("No token")
+
+          document.getElementById("topicForm").style.display = "none";
+          document.getElementById("topicForm").innerHTML = "";
         }
     }
 })
