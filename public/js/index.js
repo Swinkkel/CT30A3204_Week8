@@ -42,7 +42,7 @@ async function fetchTopics() {
       contentDiv.classList.add("card-content")
 
       const titleSpan = document.createElement("span")
-      titleSpan.id = "card-title"
+      titleSpan.classList.add("card-title")
       titleSpan.innerText = topic.title
       contentDiv.appendChild(titleSpan)
 
