@@ -42,17 +42,34 @@ async function fetchTopics() {
       const contentDiv = document.createElement("div");
       contentDiv.classList.add("card-content")
 
-      contentDiv.innerHTML = `
-        <span>${topic.title}</span>
-        <p>${topic.content}</p>
-        <p class="grey-text text-darken-2">Posted by: ${topic.username} at ${new Date(topic.createdAt).toLocaleString()}</p>
-        <div class="card-action">
-          <button id="deleteTopic" class="btn waves-effect waves-light">Delete</button>
-        </div>
-      `;
+      const titleSpan = document.createElement("span")
+      titleSpan.innerText = topic.title
+      contentDiv.appendChild(titleSpan)
+
+      const contentText = document.createElement("p")
+      contentText.innerText = topic.content
+      contentDiv.appendChild(contentText)
+
+      const postedBy = document.createElement("p")
+      postedBy.classList.add("grey-text", "text-darken-2")
+      postedBy.innerText = `Posted by: ${topic.username} at ${new Date(topic.createdAt).toLocaleString()}`
+      contentDiv.appendChild(postedBy)
+
+      const deleteBtnDiv = document.createElement("div");
+      deleteBtnDiv.classList.add("card-action")
+
+      const deleteBtn = document.createElement("button")
+      deleteBtn.id = "deleteTopic"
+      deleteBtn.innerText = "Delete"
+      deleteBtn.classList.add("btn", "waves-effect", "waves-light")
+      deleteBtnDiv.appendChild(deleteBtn)
+
+      contentDiv.appendChild(deleteBtnDiv)
+
+      topicDiv.appendChild(contentDiv);
       topicsDiv.appendChild(topicDiv);
 
-      document.getElementById(`deleteTopic-${topic._id}`)?.addEventListener("click", () => deleteTopic(topic._id));
+      deleteBtn.addEventListener("click", () => deleteTopic(topic._id));
     });
   } catch (err) {
     console.error(err);
